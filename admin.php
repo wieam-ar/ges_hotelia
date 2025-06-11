@@ -57,18 +57,19 @@ $chambres = $stmt->fetchAll();
 
         /* Section Title */
         .section-title {
-            color: var(--gray-800);
+            color:rgb(194, 156, 51);
+            padding: 15px;
             font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid var(--primary-color);
+
+            border-bottom: 2px solid black;
             display: flex;
             align-items: center;
         }
 
         .section-title i {
-            color: var(--primary-color);
+            
             font-size: 1.25rem;
         }
 
@@ -131,7 +132,7 @@ $chambres = $stmt->fetchAll();
         .form-select:focus {
             color: var(--gray-800);
             background-color: var(--white);
-            border-color: var(--primary-color);
+            border-color: black;
             outline: 0;
             box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
         }
@@ -225,20 +226,20 @@ $chambres = $stmt->fetchAll();
         /* Primary Button */
         .btn-primary {
             color: var(--white);
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+            background-color: black;
+            border-color: black;
         }
 
         .btn-primary:hover {
             color: var(--white);
-            background-color: var(--primary-hover);
-            border-color: var(--primary-hover);
+            background-color: black;
+            border-color: black;
         }
 
         .btn-primary:focus {
             color: var(--white);
-            background-color: var(--primary-hover);
-            border-color: var(--primary-hover);
+            background-color: black;
+            border-color: black;
             box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
         }
 
@@ -392,7 +393,7 @@ $chambres = $stmt->fetchAll();
 
         /* Button Styling */
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: black;
             border: none;
             border-radius: 25px;
             padding: 12px 30px;
@@ -403,9 +404,9 @@ $chambres = $stmt->fetchAll();
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            background: black;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 20px black;
         }
 
         .btn-outline-secondary {
@@ -442,7 +443,7 @@ $chambres = $stmt->fetchAll();
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: black;
             border-radius: 20px 20px 0 0;
         }
 
@@ -501,8 +502,8 @@ $chambres = $stmt->fetchAll();
 
         /* Action Buttons */
         .btn-danger {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            color: #dc3545;
+            background: rgb(194, 156, 51);
+            color:rgb(255, 255, 255);
             box-shadow: 0 3px 10px rgba(255, 154, 158, 0.3);
              padding: 8px 12px;
              font-size: 0.85rem;
@@ -516,7 +517,7 @@ $chambres = $stmt->fetchAll();
 
         .btn-danger:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 154, 158, 0.4);
+            box-shadow: 0 5px 15px rgb(194, 156, 51);
         }
 
        
@@ -731,7 +732,7 @@ $chambres = $stmt->fetchAll();
 
     <!-- Add Chamber Form -->
     <div class="form-container">
-        <h3 class="section-title"><i class="fas fa-plus me-2"></i>Add New Chamber</h3>
+        <h3 class="section-title"><i class=" fas  fa-plus me-2" style="color: #000;"></i>Add New Chamber</h3>
         <form action="add_chambre.php" method="POST">
             <div class="row">
 
@@ -809,10 +810,10 @@ $chambres = $stmt->fetchAll();
             </div>
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save me-2"></i>Add Chamber
+                    <i class=" fas  fa-save me-2" style="color: #000;"></i>Add Chamber
                 </button>
                 <button type="reset" class="btn btn-outline-secondary">
-                    <i class="fas fa-undo me-2"></i>Reset Form
+                    <i class=" fas  fa-undo me-2" style="color: #000;"></i>Reset Form
                 </button>
             </div>
         </form>
@@ -852,8 +853,8 @@ $chambres = $stmt->fetchAll();
                             <td><?= $chambre['discription'] ?></td>
 
                             <td>
-                                <a href="edit_chambre.php?id=<?= $chambre['id_chambre'] ?>" class="btn btn-primary  btn-sm"> Modifier</a>
-                                <a href="delete_chambre.php?id=<?= $chambre['id_chambre'] ?>" class="btn btn-danger mt-5 btn-sm">Supprimer</a>
+                                <a href="edit_chambre.php?id=<?= $chambre['id_chambre'] ?>" class="btn btn-primary  btn-sm" > Modifier</a>
+                                <a href="delete_chambre.php?id=<?= $chambre['id_chambre'] ?>" class="btn  mt-5 btn-sm btn-danger" style="background-color:rgb(194, 156, 51)">Supprimer</a>
 
                             </td>
                         </tr>
