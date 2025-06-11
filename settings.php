@@ -43,7 +43,7 @@ if (isset($_GET['delete'])) {
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #ff780a 0%, #f1c945 100%);
+
     min-height: 100vh;
     color: #333;
     line-height: 1.6;
@@ -105,7 +105,7 @@ input[type="file"] {
 
 input[type="file"]:hover {
     background: linear-gradient(135deg, #e8ecff 0%, #d0d8ff 100%);
-    border-color: linear-gradient(135deg, #ff780a 0%, #f1c945 100%);
+    border-color: black;
 }
 
 /* ====== Textarea Styling ====== */
@@ -133,14 +133,14 @@ textarea.form-control {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #ff780a 0%, #f1c945 100%);
+    background:black;
     color: white;
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 8px 25px rgba(97, 97, 97, 0.4);
 }
 
 .btn-sm {
@@ -149,7 +149,7 @@ textarea.form-control {
 }
 
 .btn-warning {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: goldenrod;
     color:rgb(255, 255, 255);
     box-shadow: 0 3px 10px rgba(252, 182, 159, 0.3);
 }
@@ -161,15 +161,15 @@ textarea.form-control {
 }
 
 .btn-danger {
-    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-    color: #dc3545;
+    background: black;
+    color:rgb(250, 250, 250);
     box-shadow: 0 3px 10px rgba(255, 154, 158, 0.3);
 }
 
 .btn-danger:hover {
     transform: translateY(-1px);
     box-shadow: 0 5px 15px rgba(255, 154, 158, 0.4);
-    color: #a71e2a;
+    color:rgb(255, 255, 255);
 }
 
 /* ====== Separator ====== */
