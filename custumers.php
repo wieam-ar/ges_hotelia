@@ -115,30 +115,37 @@ $clients = $stmt->fetchAll();
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: black;
             color: white;
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
             margin-top: 10px;
+            padding: 20px;
+            border-radius:50px ;
+            
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
             margin-top: 10px;
+            border-radius:50px ;
         }
 
         .btn-danger {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            color: #dc3545;
+            background: rgb(194, 156, 51);
+            color:rgb(255, 255, 255);
             box-shadow: 0 3px 10px rgba(255, 154, 158, 0.3);
             margin-top: 10px;
+            padding: 20px;
+             border-radius:50px ;
         }
 
         .btn-danger:hover {
             transform: translateY(-1px);
             box-shadow: 0 5px 15px rgba(255, 154, 158, 0.4);
-            color: #a71e2a;
+            color:rgb(255, 255, 255);
             margin-top: 10px;
+             border-radius:50px ;
         }
 
         /* ====== Responsive Design ====== */
@@ -275,8 +282,8 @@ $clients = $stmt->fetchAll();
                         <td><?= $client['adresse'] ?></td>
 
                         <td>
-                            <a href="edit_client.php?id=<?= $client['id_client'] ?>" class="btn btn-primary  btn-sm"> Modifier</a>
-                            <a href="delete_client.php?id=<?= $client['id_client'] ?>" class="btn btn-danger mt-5 btn-sm">Supprimer</a>
+                            <a href="edit_client.php?id=<?= $client['id_client'] ?>" class="btn btn-primary text-center btn-sm"> Modifier</a>
+                            <a href="delete_client.php?id=<?= $client['id_client'] ?>" class="btn btn-danger text-center mt-5 btn-sm">Supprimer</a>
 
                         </td>
                     </tr>
