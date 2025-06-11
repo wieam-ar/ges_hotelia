@@ -1,0 +1,254 @@
+#avies{
+     max-width: 650px;
+     margin: 0 auto;
+     background: rgba(255, 255, 255, 0.95);
+     backdrop-filter: blur(10px);
+     border-radius: 20px;
+     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+     padding: 40px;
+     animation: slideUp 0.6s ease-out;
+ }
+
+ @keyframes slideUp {
+     from {
+         opacity: 0;
+         transform: translateY(30px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ h1 {
+     text-align: center;
+     color: #2c3e50;
+     margin-bottom: 10px;
+     font-size: 2.5em;
+     background: linear-gradient(45deg, #667eea, #764ba2);
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+ }
+
+ .subtitle {
+     text-align: center;
+     color: #7f8c8d;
+     margin-bottom: 30px;
+     font-size: 1.1em;
+ }
+
+ .form-group {
+     margin-bottom: 25px;
+ }
+
+ label {
+     display: block;
+     margin-bottom: 8px;
+     font-weight: 600;
+     color: #2c3e50;
+     font-size: 1.1em;
+ }
+
+ input[type="text"],
+ input[type="email"],
+ input[type="tel"],
+ textarea,
+ select {
+     width: 100%;
+     padding: 15px;
+     border: 2px solid #e8ecf4;
+     border-radius: 12px;
+     font-size: 16px;
+     transition: all 0.3s ease;
+     background: rgba(255, 255, 255, 0.9);
+ }
+
+ input[type="text"]:focus,
+ input[type="email"]:focus,
+ input[type="tel"]:focus,
+ textarea:focus,
+ select:focus {
+     outline: none;
+     border-color: #667eea;
+     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+     transform: translateY(-2px);
+ }
+
+ textarea {
+     resize: vertical;
+     min-height: 120px;
+ }
+
+ .rating-section {
+     background: rgba(102, 126, 234, 0.05);
+     padding: 20px;
+     border-radius: 15px;
+     margin-bottom: 25px;
+ }
+
+ .stars {
+     display: flex;
+     gap: 8px;
+     margin-top: 10px;
+     justify-content: center;
+ }
+
+ .star {
+     font-size: 2.5em;
+     color: #ddd;
+     cursor: pointer;
+     transition: all 0.2s ease;
+ }
+
+ .star:hover,
+ .star.active {
+     color: #ffd700;
+     transform: scale(1.1);
+ }
+
+ .rating-labels {
+     display: flex;
+     justify-content: space-between;
+     margin-top: 10px;
+     font-size: 0.9em;
+     color: #666;
+ }
+
+ .checkbox-group {
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+     gap: 15px;
+     margin-top: 10px;
+ }
+
+ .checkbox-item {
+     display: flex;
+     align-items: center;
+     gap: 10px;
+     padding: 12px 15px;
+     border: 2px solid #e8ecf4;
+     border-radius: 10px;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     background: rgba(255, 255, 255, 0.7);
+ }
+
+ .checkbox-item:hover {
+     border-color: #667eea;
+     background: rgba(102, 126, 234, 0.1);
+     transform: translateY(-2px);
+ }
+
+ .checkbox-item input[type="checkbox"] {
+     width: 18px;
+     height: 18px;
+     margin: 0;
+ }
+
+ .radio-group {
+     display: flex;
+     gap: 15px;
+     margin-top: 10px;
+     flex-wrap: wrap;
+ }
+
+ .radio-item {
+     display: flex;
+     align-items: center;
+     gap: 8px;
+     padding: 12px 18px;
+     border: 2px solid #e8ecf4;
+     border-radius: 25px;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     background: rgba(255, 255, 255, 0.7);
+ }
+
+ .radio-item:hover {
+     border-color: #667eea;
+     background: rgba(102, 126, 234, 0.1);
+     transform: translateY(-2px);
+ }
+
+ .radio-item input[type="radio"] {
+     width: 16px;
+     height: 16px;
+     margin: 0;
+ }
+
+ .submit-btn {
+     width: 100%;
+     padding: 18px;
+     background: linear-gradient(45deg, #667eea, #764ba2);
+     color: white;
+     border: none;
+     border-radius: 12px;
+     font-size: 1.2em;
+     font-weight: 600;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     margin-top: 20px;
+ }
+
+ .submit-btn:hover {
+     transform: translateY(-3px);
+     box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+ }
+
+ .submit-btn:active {
+     transform: translateY(-1px);
+ }
+
+ .success-message {
+     background: linear-gradient(45deg, #4CAF50, #45a049);
+     color: white;
+     padding: 25px;
+     border-radius: 12px;
+     text-align: center;
+     font-size: 1.2em;
+     display: none;
+     animation: fadeIn 0.5s ease-in;
+ }
+
+ @keyframes fadeIn {
+     from {
+         opacity: 0;
+     }
+
+     to {
+         opacity: 1;
+     }
+ }
+
+ .required {
+     color: #e74c3c;
+ }
+
+ @media (max-width: 768px) {
+     .container {
+         padding: 20px;
+         margin: 10px;
+     }
+
+     .radio-group {
+         flex-direction: column;
+     }
+
+     .checkbox-group {
+         grid-template-columns: 1fr;
+     }
+
+     h1 {
+         font-size: 2em;
+     }
+
+     .stars {
+         gap: 5px;
+     }
+
+     .star {
+         font-size: 2em;
+     }
+ }
