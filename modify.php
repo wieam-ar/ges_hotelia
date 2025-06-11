@@ -18,9 +18,17 @@ if (!$hotel) {
 
 // Si formulaire soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nom = $_POST['nom'] ?? '';
-    $adresse = $_POST['adresse'] ?? '';
+    $nom_hotel = $_POST['nom_hotel'] ?? '';
+    $image = $_POST['image'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $telephone = $_POST['telephone'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $site_web = $_POST['site_web'] ?? '';
+    $ville = $_POST['ville'] ?? '';
+
+    
     $filename = $hotel['image']; // valeur par défaut
+
 
     // S'il y a une nouvelle image
     if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
@@ -31,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Mettre à jour
-    $stmt = $pdo->prepare("UPDATE hotels SET nom_hotel=?, adresse=?, image=? WHERE id_hotel=?");
-    $stmt->execute([$nom, $adresse, $filename, $id]);
+    $stmt = $pdo->prepare("UPDATE hotels SET nom_hotel=?, ville=?, image=? , description=?, telephone=?, email=?, site_web=?  WHERE id_hotel=?");
+    $stmt->execute([$nom_hotel, $ville, $filename, $description, $telephone, $email, $site_web, $id]);
 
     echo "<div class='alert alert-success'>✅ Hôtel mis à jour avec succès.</div>";
     // Optionnel: redirection
@@ -51,30 +59,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="container">
     <h2 class="mb-4">✏️ Modifier Hôtel</h2>
 
+    
+      
     <form method="post" enctype="multipart/form-data">
-      <div class="mb-3">
-        <label class="form-label">Nom de l'hôtel</label>
-        <input type="text" name="nom" class="form-control" value="<?= htmlspecialchars($hotel['nom_hotel']) ?>" required>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Adresse</label>
-        <textarea name="adresse" class="form-control" required><?= htmlspecialchars($hotel['adresse']) ?></textarea>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Image actuelle</label><br>
-        <img src="uploads/<?= htmlspecialchars($hotel['image']) ?>" width="150">
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Changer l'image (optionnel)</label>
-        <input type="file" name="image" class="form-control">
-      </div>
-
+      <div class=" mb-2"> <input type="text" name="nom_hotel" class="form-control" placeholder="Nom de l'hôtel" value="<?= $hotel['nom_hotel'] ?>" required> </div>
+      <div class=" mb-2"> <input type="email" name="email" class="form-control" placeholder="Email" value="<?= $hotel['email'] ?>" required> </div>
+      <div class=" mb-2"> <input type="url" name="site_web" class="form-control" placeholder="Site Web " value="<?= $hotel['site_web'] ?>" required> </div>
+      <div class=" mb-2"> <input type="text" name="ville" class="form-control" placeholder="Ville / Région" value="<?= $hotel['ville'] ?>" required> </div>
+      <div class=" mb-2"> <input type="text" name="telephone" class="form-control" placeholder="Téléphone" value="<?= $hotel['telephone'] ?>" required> </div>
+      <div class=" mb-2"> <input type="file" name="image" class="form-control" value="<?= $hotel['image'] ?>" required> </div>
+      <div class="mb-2"> <textarea name="description" class="form-control" placeholder="Description" rows="4" value="<?= $hotel['description'] ?>"></textarea>
       <button class="btn btn-primary">Enregistrer</button>
       <a href="settings.php" class="btn btn-secondary">⬅ Retour</a>
     </form>
+    
   </div>
 </body>
 </html>

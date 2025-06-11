@@ -1,18 +1,33 @@
 <?php
 include './includes/db.php';
-
-// Ajouter un hôtel
 if (isset($_POST['ajouter'])) {
-    $stmt = $pdo->prepare("INSERT INTO hotels (nom_hotel, adresse, description, email, telephone, site_web, ville, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $filename = $_FILES['image']['name'];
-    $temp = $_FILES['image']['tmp_name'];
-    move_uploaded_file($temp, "uploads/" . $filename);
+    // Vérification si tous les champs nécessaires sont bien présents
+    if (
+        isset($_FILES['image']) && $_FILES['image']['error'] === 0 &&
+        isset($_POST['nom_hotel']) && isset($_POST['email']) && isset($_POST['telephone']) &&
+        isset($_POST['ville']) && isset($_POST['description'])
+    ) {
+        // Nettoyage des données
+        $nom_hotel = $_POST['nom_hotel'];
+        $email = $_POST['email'];
+        $site_web = $_POST['site_web'] ?? '';
+        $ville = $_POST['ville'];
+        $telephone = $_POST['telephone'];
+        $description = $_POST['description'];
 
-    $stmt->execute([
-        $_POST['nom_hotel'], $_POST['adresse'], $_POST['description'], $_POST['email'],
-        $_POST['telephone'], $_POST['site_web'], $_POST['ville'], $filename
-    ]);
+        // Gestion de l’image
+        $filename = $_FILES['image']['name'];
+        $temp = $_FILES['image']['tmp_name'];
+
+        // Déplacement de l'image vers le dossier 'uploads'
+        move_uploaded_file($temp, "uploads/" . $filename);
+
+        // Insertion dans la base de données
+        $stmt = $pdo->prepare("INSERT INTO hotels (nom_hotel, description, email, telephone, site_web, ville, image) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$nom, $description, $email, $telephone, $site_web, $ville, $filename]);
+    } 
 }
+
 
 // Supprimer un hôtel
 if (isset($_GET['delete'])) {
@@ -214,6 +229,16 @@ h3 {
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 }
+td {
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px;
+    white-space: nowrap;
+}
+
+button {
+    margin: 5px;
+}
 
 .table-bordered {
     border: 2px solid #e2e8f0;
@@ -404,12 +429,11 @@ h3 {
 }
 
 .table-responsive::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 4px;
+background: linear-gradient(135deg,rgb(47, 48, 51) 0%,rgb(0, 0, 0) 100%);    border-radius: 4px;
 }
 
 .table-responsive::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    background: linear-gradient(135deg,rgb(47, 48, 51) 0%,rgb(0, 0, 0) 100%);
 }
     </style>
 </head>
@@ -420,7 +444,7 @@ h3 {
   <!-- Contenu principal -->
   <div class="form-container" style="padding: 20px;">
     <form method="post">
-      <div class=" mb-2"> <input type="text" name="nom" class="form-control" placeholder="Nom de l'hôtel" required> </div>
+      <div class=" mb-2"> <input type="text" name="nom_hotel" class="form-control" placeholder="Nom de l'hôtel" required> </div>
       <div class=" mb-2"> <input type="email" name="email" class="form-control" placeholder="Email" required> </div>
       <div class=" mb-2"> <input type="url" name="site_web" class="form-control" placeholder="Site Web"> </div>
       <div class=" mb-2"> <input type="text" name="ville" class="form-control" placeholder="Ville / Région" required> </div>
@@ -432,12 +456,16 @@ h3 {
   <hr class="my-5"> <!-- Liste des hôtels -->
   <h3 class="mb-3">🏨 Liste des Hôtels</h3>
   <div class="table-responsive">
-    <table class="table table-bordered table-striped align-middle text-center">
+    <table class="table table-bordered table-striped align-middle text-center" border="1">
       <thead class="table-dark">
         <tr>
+          <th></th>
           <th>Nom</th>
           <th>Ville</th>
           <th>Email</th>
+          <th>Téléphone</th>
+          <th>Description</th>
+          <th>Site Web</th>
           <th>Image</th>
           <th>Actions</th>
         </tr>
@@ -449,10 +477,14 @@ h3 {
         $hotels = $pdo->query("SELECT * FROM hotels")->fetchAll();
         foreach ($hotels as $hotel) {
           echo "<tr>
+                  <td>{$hotel['id_hotel']}</td>
                   <td>{$hotel['nom_hotel']}</td>
                   <td>{$hotel['ville']}</td>
                   <td>{$hotel['email']}</td>
-                  <td><img src='uploads/{$hotel['image']}' width='80'></td>
+                  <td>{$hotel['telephone']}</td>
+                   <td>{$hotel['description']}</td>
+                  <td>{$hotel['site_web']}</td>
+                 <td><img src='uploads/{$hotel['image']}' width='80'></td>
                   <td>
                     <a href='modify.php?id={$hotel['id_hotel']}' class='btn btn-sm btn-warning'>Modifier</a>
                     <a href='?delete={$hotel['id_hotel']}' class='btn btn-sm btn-danger' onclick='return confirm(\"Supprimer cet hôtel ?\")'>Supprimer</a>
