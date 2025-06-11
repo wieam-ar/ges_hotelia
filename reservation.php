@@ -612,7 +612,7 @@ $rooms = $stmt2->fetchAll(PDO::FETCH_ASSOC);
     <section id="payment-section" class=" d-flex justify-content-center align-items-center d-none mb-5">
         <div class="payment-container ">
             <h2 class="text-center mb-4">Choose Payment Method</h2>
-            <form action="card_vm.php" method="post" id="paymentForm" novalidate>
+            <form action="card_vm.php" method="post" id="paymentForm">
 
                 <!-- Méthodes de paiement -->
                 <div class="form-section">
@@ -691,12 +691,19 @@ $rooms = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                     <i class="bi bi-shield-check fs-3 mb-2"></i>
                     <div><strong>Paiement 100% Sécurisé</strong></div>
                     <div>Vos données sont protégées par cryptage SSL</div>
-                </div>
-                <input type="hidden" name="id_hotel" value="<?= $_GET['id_hotel'] ?>">
-                <input type="hidden" name="id_chambre" value="<?= $_GET['id_chambre'] ?>">
-                <input type="hidden" name="date_arrivee" value="<?= $_GET['date_arrivee'] ?>">
-                <input type="hidden" name="date_depart" value="<?= $_GET['date_depart'] ?>">
-                <input type="hidden" name="nb_personnes" value="<?= $_GET['nb_personnes'] ?>">
+                </div><?php
+                        $id_hotel = isset($_GET['id_hotel']) ? $_GET['id_hotel'] : '';
+                        $id_chambre = isset($_GET['id_chambre']) ? $_GET['id_chambre'] : '';
+                        $date_arrivee = isset($_GET['date_arrivee']) ? $_GET['date_arrivee'] : '';
+                        $date_depart = isset($_GET['date_depart']) ? $_GET['date_depart'] : '';
+                        $personnes = isset($_GET['personnes']) ? $_GET['personnes'] : '';
+                        ?>
+
+                <input type="hidden" name="id_hotel" value="<?= htmlspecialchars($_GET['id_hotel'] ?? '') ?>">
+                <input type="hidden" name="id_chambre" value="<?= htmlspecialchars($_GET['id_chambre'] ?? '') ?>">
+                <input type="hidden" name="date_arrivee" value="<?= htmlspecialchars($_GET['date_arrivee'] ?? '') ?>">
+                <input type="hidden" name="date_depart" value="<?= htmlspecialchars($_GET['date_depart'] ?? '') ?>">
+                <input type="hidden" name="personnes" value="<?= htmlspecialchars($_GET['personnes'] ?? '') ?>">
 
                 <!-- Bouton de paiement -->
                 <div class="d-grid gap-2">
