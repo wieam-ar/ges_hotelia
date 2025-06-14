@@ -634,8 +634,9 @@ $rooms = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                         <i class="bi bi-shield-lock"></i>
                         Informations de la Carte
                     </h5>
-
+                   
                     <div class="mb-3">
+                       
                         <label for="cardNumber" class="form-label">Numéro de carte <span class="text-warning">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
@@ -691,19 +692,7 @@ $rooms = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                     <i class="bi bi-shield-check fs-3 mb-2"></i>
                     <div><strong>Paiement 100% Sécurisé</strong></div>
                     <div>Vos données sont protégées par cryptage SSL</div>
-                </div><?php
-                        $id_hotel = isset($_GET['id_hotel']) ? $_GET['id_hotel'] : '';
-                        $id_chambre = isset($_GET['id_chambre']) ? $_GET['id_chambre'] : '';
-                        $date_arrivee = isset($_GET['date_arrivee']) ? $_GET['date_arrivee'] : '';
-                        $date_depart = isset($_GET['date_depart']) ? $_GET['date_depart'] : '';
-                        $personnes = isset($_GET['personnes']) ? $_GET['personnes'] : '';
-                        ?>
-
-                <input type="hidden" name="id_hotel" value="<?= htmlspecialchars($_GET['id_hotel'] ?? '') ?>">
-                <input type="hidden" name="id_chambre" value="<?= htmlspecialchars($_GET['id_chambre'] ?? '') ?>">
-                <input type="hidden" name="date_arrivee" value="<?= htmlspecialchars($_GET['date_arrivee'] ?? '') ?>">
-                <input type="hidden" name="date_depart" value="<?= htmlspecialchars($_GET['date_depart'] ?? '') ?>">
-                <input type="hidden" name="personnes" value="<?= htmlspecialchars($_GET['personnes'] ?? '') ?>">
+                </div>
 
                 <!-- Bouton de paiement -->
                 <div class="d-grid gap-2">

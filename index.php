@@ -330,7 +330,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="card border-0 shadow-lg h-100 overflow-hidden">
                         <div class="card-img-container position-relative">
-                            <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                            <img src="./pictures/osais.png"
                                 class="card-img-top" alt="Hôtel Oasis" style="height: 220px; object-fit: cover;">
                             <span class="badge bg-dark position-absolute top-0 end-0 m-2 px-3 py-2">
                                 <i class="fas fa-tag me-1"></i>700 MAD/nuit
@@ -364,7 +364,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="card border-0 shadow-lg h-100 overflow-hidden">
                         <div class="card-img-container position-relative">
-                            <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                            <img src="./pictures/riadmarakech.png" 
                                 class="card-img-top" alt="Riad Marrakech" style="height: 220px; object-fit: cover;">
                             <span class="badge bg-dark position-absolute top-0 end-0 m-2 px-3 py-2">
                                 <i class="fas fa-tag me-1"></i>550 MAD/nuit
@@ -398,7 +398,7 @@
                 <div class="col-lg-4 col-md-6 mx-auto">
                     <div class="card border-0 shadow-lg h-100 overflow-hidden">
                         <div class="card-img-container position-relative">
-                            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                            <img src="./pictures/farah.png"
                                 class="card-img-top" alt="Plage Paradis" style="height: 220px; object-fit: cover;">
                             <span class="badge bg-dark position-absolute top-0 end-0 m-2 px-3 py-2">
                                 <i class="fas fa-tag me-1"></i>950 MAD/nuit
@@ -420,7 +420,7 @@
                                 <i class="fas fa-spa amenity-icon" title="Spa"></i>
                                 <i class="fas fa-umbrella-beach amenity-icon" title="Accès plage"></i>
                             </div>
-                            <p class="card-text">Profitez du luxe en bord de mer avec piscine, spa et plus encore.</p>
+                            <p class="card-text">Profitez du luxe en hotel farah .</p>
                             <a href="login.php" class="btn btn-outline-dark w-100 mt-2 rounded-5">
                                 <i class="fas fa-calendar-check me-2"></i>Réserver maintenant
                             </a>

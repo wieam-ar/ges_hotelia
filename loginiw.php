@@ -1,34 +1,21 @@
 <?php
 session_start();
-include './includes/db.php';
+    include './includes/db.php';
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-
-    $sql = "SELECT * FROM clients WHERE email = :email";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([':email' => $email]);
-
-    if ($stmt->rowCount() == 1) {
-        $client = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (password_verify($password, $client['password'])) {
-            $_SESSION['client_email'] = $client['email'];
-            $id_client = $_SESSION['id_client'];
-           
-            echo "<script>alert('✅ Login successful!');</script>";
-             header("Location: index.php");
-         
-        }
-         else {
-            echo "<script>alert('🚫 Mot de passe incorrect');</script>";
-        }
+    $stmt = $pdo->prepare("SELECT * FROM clients WHERE email = ?");
+    $stmt->execute([$email]);
+    $client = $stmt->fetch();
+   if ($user && password_verify($password, $user['password'])) {
+        // login successful
+        $_SESSION['id_client'] = $user['id_client'];
+        $_SESSION['nom'] = $user['nom'];
+        $_SESSION['email'] = $user['email'];
+        header("Location: info.php"); 
+        exit();
     } else {
-        echo "<script>alert('🚫 Email non trouvé');</script>";
-    }   
-   
+        $login_error = "Email ou mot de passe incorrect.";
+    }
 }
-?>
- 

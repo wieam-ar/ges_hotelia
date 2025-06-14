@@ -52,11 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div id="message-container"></div>
 
         <form id="resetForm" method="POST">
- <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>" />            
+            <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>" />            
             <div class="form-group">
                 <div class="password-container">
                     <input type="password" id="password" name="password" placeholder="Enter new password" required>
-                    <button type="button" class="password-toggle" onclick="togglePassword()">👁️</button>
+                 
                 </div>
                 <div class="strength-meter">
                     <div class="strength-fill" id="strength-fill"></div>

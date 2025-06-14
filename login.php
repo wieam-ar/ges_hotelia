@@ -26,7 +26,7 @@
 
       <div class="divider mt-4">or</div>
 
-      <form class="mt-4" action="loginiw.php" method="post">
+      <form action="login.php" method="post">
         <div class="mb-3">
           <input type="email" id="email" name="email" class="inputs" placeholder="Email Address" />
         </div>
