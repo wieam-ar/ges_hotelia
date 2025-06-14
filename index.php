@@ -12,6 +12,61 @@
 </head>
 
 <body>
+    <!-- Écran de Chargement -->
+    <div class="loading-container" id="loadingScreen">
+        <div class="floating-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+
+        <div class="loading-content">
+            <div class="logo">
+                <i class="fas fa-gem"></i> Mon site de luxe
+            </div>
+
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+
+            <div class="loading-text">Préparation d'une expérience exceptionnelle...</div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div class="loading-percentage" id="loadingPercentage">0%</div>
+        </div>
+    </div>
+
+    <!-- Contenu Principal -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+            <div class="welcome-card">
+                <h1 class="text-white mb-4">
+                    <i class="fas fa-star"></i> Bienvenue
+                </h1>
+                <p class="text-white lead">
+                    Nous vous souhaitons la bienvenue sur notre site de luxe. Nous sommes ravis de vous avoir parmi nous !
+                </p>
+                <button class="btn btn-light btn-lg mt-3">
+                    <i class="fas fa-rocket"></i> Commencer maintenant
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+
     <header>
         <div class="container">
             <div class="row">
@@ -65,21 +120,21 @@
     </header>
     <!-- Section 1 -->
     <section id="section1" class="mt-5 " style="height:100vh; ">
-        <div class="container  " >
+        <div class="container  ">
             <video autoplay muted loop class="hero-section" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: -1; border-radius: 20px;">
-                <source src="./pictures/3410663-uhd_2562_1440_30fps (2).mp4" type="video/mp4" >
+                <source src="./pictures/3410663-uhd_2562_1440_30fps (2).mp4" type="video/mp4">
             </video>
             <div class="row justify-content-center ">
                 <div class="col-md-10 col-sm-12 centrehero mt-5 mx-auto">
- 
+
                     <h1 class="hero-title" style="font-size: 3rem; margin-top: 15%;">Rencontre des voyageurs.</h1>
                     <p class="hero-subtitle">Choisir où te loger et on te montrera avec qui !</p>
 
                     <!-- Search Form -->
-                    <div  >
+                    <div>
                         <div class="row g-2 align-items-center">
                             <div class="col-md-12 col-sm some d-flex justify-content-center " id="search-form">
-                                <form action="reservation.php" method="GET"  >
+                                <form action="reservation.php" method="GET">
                                     <div class="input-group ml-3">
                                         <span class="input-group-text border-0">
                                             <i class="fas fa-map-marker-alt icon-location"></i>
@@ -113,7 +168,7 @@
                                     </button>
                                 </form>
 
-                               
+
                             </div>
 
                         </div>
@@ -124,7 +179,7 @@
         </div>
         </div>
     </section>
-     <!-- nos opportunités -->
+    <!-- nos opportunités -->
     <section id="section2 " style=" height:100vh;">
         <div class="container ">
 
@@ -232,7 +287,7 @@
         </div>
 
     </section>
-      
+
     <!-- les hotels-->
     <section id="section3" style="width: 100%; height:110vh;">
         <div class="container-fluid">
@@ -364,7 +419,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="card border-0 shadow-lg h-100 overflow-hidden">
                         <div class="card-img-container position-relative">
-                            <img src="./pictures/riadmarakech.png" 
+                            <img src="./pictures/riadmarakech.png"
                                 class="card-img-top" alt="Riad Marrakech" style="height: 220px; object-fit: cover;">
                             <span class="badge bg-dark position-absolute top-0 end-0 m-2 px-3 py-2">
                                 <i class="fas fa-tag me-1"></i>550 MAD/nuit
