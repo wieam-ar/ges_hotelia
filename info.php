@@ -16,32 +16,15 @@ if (!isset($_SESSION['id_client'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <title>Document</title>
+    <title>prifile</title>
     <style>
-        /* Variables CSS pour la palette beige & or harmonisée */
-        :root {
-            --primary-beige: #f5e6d3;
-            --secondary-beige: #e8d5c4;
-            --accent-gold: #d4af37;
-            --dark-gold: #b8941f;
-            --light-cream: #faf7f2;
-            --warm-beige: #ddc3a5;
-            --text-dark: #5d4e37;
-            --text-medium: #8b7355;
-            --border-beige: #d9c7b7;
-            --shadow-warm: rgba(212, 175, 55, 0.15);
-            --gradient-gold: linear-gradient(135deg, #d4af37 0%, #f4e4bc 100%);
-            --gradient-beige: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 100%);
-            --gradient-header: linear-gradient(135deg, #d4af37 0%, #b8941f 50%, #8b7355 100%);
-        }
-
-        /* Profile Container */
+   
         .profile-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--light-cream);
+            background: rgb(255, 255, 255) ;
             min-height: 100vh;
             position: relative;
         }
@@ -67,11 +50,11 @@ if (!isset($_SESSION['id_client'])) {
             border-radius: 20px;
             box-shadow:
                 0 15px 35px rgba(93, 78, 55, 0.12),
-                0 5px 15px var(--shadow-warm);
+                0 5px 15px rgb(136, 123, 108) ;
             margin-bottom: 30px;
             overflow: hidden;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
-            border: 1px solid var(--border-beige);
+            border: 1px solid rgb(136, 123, 108) ;
             position: relative;
         }
 
@@ -82,19 +65,19 @@ if (!isset($_SESSION['id_client'])) {
             left: 0;
             right: 0;
             height: 4px;
-            background: var(--gradient-gold);
+            background: rgb(136, 123, 108) ;
         }
 
         .profile-card:hover {
             transform: translateY(-8px);
             box-shadow:
                 0 20px 40px rgba(93, 78, 55, 0.15),
-                0 8px 20px var(--shadow-warm);
+                0 8px 20px rgb(136, 123, 108) ;
         }
 
         /* Profile Header */
         .profile-header {
-            background: var(--gradient-header);
+            background: rgb(136, 123, 108) ;
             color: white;
             padding: 45px 35px;
             text-align: center;
@@ -174,7 +157,7 @@ if (!isset($_SESSION['id_client'])) {
         /* Profile Body */
         .profile-body {
             padding: 35px;
-            background: linear-gradient(145deg, #ffffff 0%, var(--light-cream) 100%);
+            background: linear-gradient(145deg, #ffffff 0%, rgb(235, 235, 235)  100%);
         }
 
         /* Success Alert */
@@ -354,7 +337,7 @@ if (!isset($_SESSION['id_client'])) {
         }
 
         .btn-edit {
-            background: var(--gradient-gold);
+            background: linear-gradient(135deg, #e6c147 0%, #d4af37 100%);
             color: white;
             box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -367,7 +350,7 @@ if (!isset($_SESSION['id_client'])) {
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+             background: linear-gradient(135deg, #e6c147 0%, #d4af37 100%);
             transition: left 0.5s;
         }
 
@@ -510,6 +493,7 @@ if (!isset($_SESSION['id_client'])) {
 
 
 <body>
+    <?php  include './includes/sideclient.php';?>
     <div class="profile-container">
         <!-- Carte de profil principale -->
         <div class="profile-card">
@@ -524,7 +508,10 @@ if (!isset($_SESSION['id_client'])) {
                 <div id="successAlert" class="alert alert-success" style="display: none;">
                     <i class="bi bi-check-circle-fill"></i> Vos informations ont été mises à jour avec succès !
                 </div>
-
+                <div class="profile-info">
+                    <strong><i class="bi bi-geo-alt"></i> Adresse :</strong>
+                    <span id="displaynom"><?= htmlspecialchars($_SESSION['client_nom']) ?></span>
+                </div>
                 <div class="profile-info">
                     <strong><i class="bi bi-envelope"></i> Email :</strong>
                     <span id="displayEmail"><?= htmlspecialchars($_SESSION['client_email']) ?></span>
@@ -532,7 +519,7 @@ if (!isset($_SESSION['id_client'])) {
 
                 <div class="profile-info">
                     <strong><i class="bi bi-telephone"></i> Téléphone :</strong>
-                    <span id="displayPhone"><?= htmlspecialchars($_SESSION['client_telephone']) ?></span>
+                    <span id="displayPhone"><?= htmlspecialchars($_SESSION['telephone']) ?></span>
                 </div>
 
                 <div class="profile-info">

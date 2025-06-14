@@ -369,21 +369,11 @@
                 </li>
 
                 <li>
-                    <a href="admin.php">
+                    <a href="reserved.php">
                         <span class="icon">
                             <ion-icon name="home-outline"></ion-icon>
                         </span>
                         <span class="title">Dashboard</span>
-                    </a>
-                </li>
-
-                
-                <li>
-                    <a href="reserved.php">
-                        <span class="icon">
-                            <ion-icon name="calendar-outline"></ion-icon>
-                        </span>
-                        <span class="title">reserverd</span>
                     </a>
                 </li>
 
@@ -423,9 +413,7 @@
                     <ion-icon name="menu-outline"></ion-icon>
                 </div>
 
-                <div class="user">
-                    <img src="./pictures/girl.png" alt="">
-                </div>
+
             </div>
 
             

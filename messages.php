@@ -1,82 +1,201 @@
+<?php
+include './includes/db.php';
+
+// Delete logic
+if (isset($_GET['delete_id'])) {
+  $id = (int) $_GET['delete_id'];
+  $stmt = $pdo->prepare("DELETE FROM feedback WHERE id = ?");
+  $stmt->execute([$id]);
+  header("Location: messages.php");
+  exit();
+}
+
+// Fetch all feedback
+$stmt = $pdo->query("SELECT * FROM feedback ORDER BY submitted_at DESC");
+$feedbacks = $stmt->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Messages - Admin Panel</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>Gestion des Feedbacks</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
   <style>
+    /* Reset some default styles */
     body {
-      background-color: #f8f9fa;
-    }
-
-    .messages-container {
-      max-width: 1000px;
-      margin: 50px auto;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      padding: 25px;
-    }
-
-    .message-item {
-      padding: 15px 10px;
-      border-bottom: 1px solid #eee;
-      transition: 0.2s;
-    }
-
-    .message-item:hover {
-      background-color: #f1f1f1;
-    }
-
-    .message-title {
-      font-weight: 600;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 20px;
+      background-color: #fafafa;
       color: #333;
     }
 
-    .message-meta {
-      font-size: 14px;
-      color: #666;
+    /* Heading */
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #222;
     }
 
-    .message-body {
+    /* Table styles */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto 40px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    thead tr {
+      background: rgb(0, 0, 0);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    th,
+    td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      vertical-align: top;
+    }
+
+    tbody tr:hover {
+      background-color: #f1f8ff;
+    }
+
+    /* Make multi-line fields look neat */
+    td pre {
+      white-space: pre-wrap;
+      margin: 0;
+      font-family: inherit;
+      font-size: 0.95em;
       color: #555;
-      margin-top: 5px;
     }
 
-    .btn-reply {
-      font-size: 14px;
-      padding: 4px 10px;
+    /* Delete button styling */
+    a.btn-danger {
+      color: #dc3545;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 6px 12px;
+      border: 1px solid #dc3545;
+      border-radius: 4px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    a.btn-danger:hover {
+      background-color: #dc3545;
+      color: #fff;
+    }
+
+    /* Responsive design for smaller screens */
+    @media (max-width: 900px) {
+
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+      }
+
+      thead tr {
+        display: none;
+      }
+
+      tbody tr {
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        background: #fff;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      tbody tr td {
+        padding: 10px 10px;
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+      }
+
+      tbody tr td::before {
+        position: absolute;
+        top: 10px;
+        left: 15px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: 600;
+        text-align: left;
+        color: rgb(2, 2, 2);
+        content: attr(data-label);
+      }
     }
   </style>
 </head>
+
 <body>
+  <h1><a href="admin.php"><i class="fa-arrow-left "></i></a>Gestion des Feedbacks</h1>
 
-<div class="container messages-container">
-  <h3 class="mb-4"><i class="fas fa-envelope-open-text me-2"></i> Boîte de réception</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+        <th>Satisfaction</th>
+        <th>Aspects appréciés</th>
+        <th>Commentaires</th>
+        <th>Améliorations</th>
+        <th>Date de soumission</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php if (count($feedbacks) === 0): ?>
+        <tr>
+          <td colspan="10">Aucun feedback trouvé.</td>
+        </tr>
+      <?php else: ?>
+        <?php foreach ($feedbacks as $fb): ?>
+          <tr>
+            <td><?= htmlspecialchars($fb['id']) ?></td>
+            <td><?= htmlspecialchars($fb['name']) ?></td>
+            <td><?= htmlspecialchars($fb['email']) ?></td>
+            <td><?= htmlspecialchars($fb['phone']) ?></td>
+            <td><?= htmlspecialchars($fb['satisfaction']) ?></td>
+            <td>
+              <pre><?= htmlspecialchars($fb['liked_aspects']) ?></pre>
+            </td>
+            <td>
+              <pre><?= htmlspecialchars($fb['comments']) ?></pre>
+            </td>
+            <td>
+              <pre><?= htmlspecialchars($fb['improvements']) ?></pre>
+            </td>
+            <td><?= htmlspecialchars($fb['submitted_at']) ?></td>
+            <td>
+              <a href="messages.php?delete_id=<?= $fb['id'] ?>"
+                class="btn btn-danger btn-sm d-flex"
+                onclick="return confirm('Voulez-vous vraiment supprimer ce message ?');">
+                 Supprimer
+              </a>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      <?php endif; ?>
+    </tbody>
+  </table>
 
-  <!-- Example Message -->
-  <div class="message-item">
-    <div class="d-flex justify-content-between">
-      <span class="message-title">Demande de réservation</span>
-      <span class="message-meta">05/06/2025 - 11:30</span>
-    </div>
-    <div class="message-meta">De : <strong>mohamed@example.com</strong></div>
-    <div class="message-body">Bonjour, je voudrais réserver une chambre du 10 au 15 juin. Merci !</div>
-    <a href="mailto:mohamed@example.com" class="btn btn-sm btn-outline-primary btn-reply mt-2">Répondre</a>
-  </div>
-
-  <!-- Repeat this block for each message -->
-  <div class="message-item">
-    <div class="d-flex justify-content-between">
-      <span class="message-title">Problème de paiement</span>
-      <span class="message-meta">04/06/2025 - 16:45</span>
-    </div>
-    <div class="message-meta">De : <strong>sara@site.com</strong></div>
-    <div class="message-body">J'ai essayé de payer mais cela ne fonctionne pas. Pouvez-vous m'aider ?</div>
-    <a href="mailto:sara@site.com" class="btn btn-sm btn-outline-primary btn-reply mt-2">Répondre</a>
-  </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
+
 </html>

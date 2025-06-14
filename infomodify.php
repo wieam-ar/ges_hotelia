@@ -3,35 +3,37 @@ session_start();
 include './includes/db.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-   $nom = trim($_POST["nom"]);
+    $nom = trim($_POST["nom"]);
     $email = trim($_POST["email"]);
     $adresse = trim($_POST["adresse"]);
     $telephone = trim($_POST["telephone"]);
-    
+    $id_client = $_SESSION['client']['id_client']; // 🔧 On récupère l'id du client
 
-    if (!$nom || !$email ||  !$adresse || !$telephone) {
-        echo "<script>alert('Tous les champs doivent être remplis.')/script>";
+    if (!$nom || !$email || !$adresse || !$telephone) {
+        echo "<script>alert('Tous les champs doivent être remplis.')</script>";
     } else {
         $sql = "UPDATE clients 
-                SET email = :email, telephone = :telephone, adresse = :adresse, code_postal = :code_postal, ville = :ville 
-                WHERE id = :id";
+                SET nom = :nom, email = :email, telephone = :telephone, adresse = :adresse 
+                WHERE id_client = :id_client";
         $stmt = $pdo->prepare($sql);
 
         $updated = $stmt->execute([
             ':nom' => $nom,
-                ':email' => $email,
-                ':adresse' => $adresse,
-                ':telephone' => $telephone
-                
+            ':email' => $email,
+            ':adresse' => $adresse,
+            ':telephone' => $telephone,
+            ':id_client' => $id_client 
         ]);
 
-      
+        if ($updated) {
+            echo "<script>alert('✅ Informations mises à jour avec succès.'); window.location.href='info.php';</script>";
+        } else {
+            echo "<script>alert('❌ Erreur lors de la mise à jour.');</script>";
+        }
     }
 }
-
-
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -493,6 +495,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form id="personalDataForm" method="post">
                     <div class="form-section">
                         <h4 class="section-header"><i class="bi bi-telephone"></i> Informations de Contact</h4>
+                         <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="nom" class="form-label"><i class="bi bi-house"></i> nom </label>
+                                <input type="text" class="form-control" id="nom" name="nom" required
+                                    value="<?= htmlspecialchars($user['nom'] ?? '') ?>">
+                            </div>
+                           
+                        </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="email" class="form-label"><i class="bi bi-envelope"></i> Adresse email</label>
@@ -505,31 +515,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     value="<?= htmlspecialchars($user['telephone'] ?? '') ?>">
                             </div>
                         </div>
-                    </div>
-
-                    <div class="form-section">
-                        <h4 class="section-header"><i class="bi bi-geo-alt"></i> Adresse</h4>
-                        <div class="row">
-                            <div class="col-md-8 mb-3">
+                         <div class="row">
+                            <div class="col-md-12 mb-3">
                                 <label for="adresse" class="form-label"><i class="bi bi-house"></i> Adresse complète</label>
                                 <input type="text" class="form-control" id="adresse" name="adresse" required
                                     value="<?= htmlspecialchars($user['adresse'] ?? '') ?>">
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="codePostal" class="form-label"><i class="bi bi-mailbox"></i> Code postal</label>
-                                <input type="text" class="form-control" id="codePostal" name="codePostal" required
-                                    value="<?= htmlspecialchars($user['code_postal'] ?? '') ?>">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label for="ville" class="form-label"><i class="bi bi-building"></i> Ville</label>
-                                <input type="text" class="form-control" id="ville" name="ville" required
-                                    value="<?= htmlspecialchars($user['ville'] ?? '') ?>">
-                            </div>
+                           
                         </div>
                     </div>
 
+                    
                     <div class="form-buttons">
                         <button type="button" class="btn btn-cancel" onclick="window.location.href='profile.php'">
                             <i class="bi bi-x-circle"></i> Annuler
