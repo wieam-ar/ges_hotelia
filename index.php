@@ -16,33 +16,15 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgb(255, 255, 255) 0%, rgb(162, 160, 75) 50%, rgb(3, 3, 3) 100%);
+            background: black;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            animation: gradientShift 8s ease-in-out infinite;
+            
         }
 
-        @keyframes gradientShift {
-
-            0%,
-            100% {
-                background: black;
-            }
-
-            25% {
-                background: rgb(53, 53, 52);
-            }
-
-            50% {
-                background: rgb(56, 54, 49);
-            }
-
-            75% {
-                background: rgb(53, 50, 42);
-            }
-        }
+       
 
         .loading-content {
             text-align: center;
@@ -160,7 +142,7 @@
 
         .progress-bar {
             height: 8px;
-            background: linear-gradient(90deg, #ffffff, rgb(46, 43, 46), #ab8207);
+            background: linear-gradient(90deg, #ffffff, #d4af37, #4e3b2a);
             border-radius: 20px;
             width: 0%;
             transition: width 0.3s ease;
@@ -367,7 +349,7 @@
         </div>
     </div>
 
-    
+
 
 
 
