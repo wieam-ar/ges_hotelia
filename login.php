@@ -25,8 +25,8 @@
 
 
       <div class="divider mt-4">or</div>
-
-      <form action="login.php" method="post">
+      
+      <form action="loginiw.php" method="post">
         <div class="mb-3">
           <input type="email" id="email" name="email" class="inputs" placeholder="Email Address" />
         </div>
@@ -67,7 +67,7 @@
 
 
       <div class="divider mt-4">or</div>
-
+ 
       <form class="mt-2" action="register.php" method="post">
         <div class="mb-2">
           <input type="text" id="nom" name="nom" class="inputs" placeholder="nom" style="padding: 4px;" />
@@ -75,7 +75,7 @@
         <div class="mb-2">
           <input type="email" class="inputs" id="email" name="email" placeholder="Email Address" style="padding: 4px;" />
         </div>
-       
+
         <div class="mb-2">
           <input type="tel" name="telephone" id="telephone" class="inputs" placeholder="téléphone" pattern="[0-9]{10}" style="padding: 4px;" required>
         </div>

@@ -725,9 +725,11 @@ $chambres = $stmt->fetchAll();
 </head>
 
 <body>
-    <?php include 'includes/sidebar.php'; ?>
+    <?php include 'includes/sidebar.php';
+     ?>
 
- 
+  
+
     <!-- =======chambre==================== -->
 
     <!-- Add Chamber Form -->

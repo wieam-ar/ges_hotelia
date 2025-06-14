@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $resetLink = "http://localhost/ges_hotels/reset_password.php?token=$token";
 
         // Simulate email (in production, use mail())
-        echo "<script>alert('Password reset link: <a href='$resetLink'>$resetLink</a>')</script>";
+        echo "Password reset link: <a href='$resetLink'>$resetLink</a>";
     } else {
         echo "<script>alert('❌ No account found with that email.');</script>";
     }

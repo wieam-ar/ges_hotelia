@@ -1,34 +1,51 @@
 <?php
+session_start();
 include './includes/db.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $nom = $_POST["nom"];
-    $email = $_POST["email"];
-    $adresse = $_POST["adresse"];
-    $telephone = $_POST["telephone"];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nom = trim($_POST["nom"]);
+    $email = trim($_POST["email"]);
+    $adresse = trim($_POST["adresse"]);
+    $telephone = trim($_POST["telephone"]);
     $password = $_POST["password"];
 
-    $sqlCheck = "SELECT * FROM 	clients WHERE email = :email";
-    $stmtCheck = $pdo->prepare($sqlCheck);
-    $stmtCheck->execute([':email' => $email]);
-
-    if ($stmtCheck->rowCount() > 0) {
-        echo "<script>alert('🚫 Cet email est déjà utilisé.');</script>";
+    // Vérification des champs
+    if (!$nom || !$email || !$password || !$adresse || !$telephone) {
+        echo "<script>alert('🚫 Tous les champs sont obligatoires.'); window.history.back();</script>";
+        exit();
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('🚫 Email invalide.'); window.history.back();</script>";
+        exit();
     } else {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        // Vérifier si email existe déjà
+        $stmt = $pdo->prepare("SELECT * FROM clients WHERE email = ?");
+        $stmt->execute([$email]);
 
-        $sqlInsert = "INSERT INTO 	clients (nom, email, adresse, telephone, password) VALUES (:nom, :email, :adresse, :telephone, :password)";
-        $stmtInsert = $pdo->prepare($sqlInsert);
-        $stmtInsert->execute([
-            ':nom' => $nom,
-            ':email' => $email,
-            ':adresse' => $adresse,
-            ':telephone' => $telephone,
-            ':password' => $hashedPassword]);
+        if ($stmt->rowCount() > 0) {
+            echo "<script>alert('🚫 Cet email est déjà utilisé.'); window.history.back();</script>";
+            exit();
+        } else {
+            // Hasher le mot de passe
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        echo "<script>alert('✅ Inscription réussie!');</script>";
-       header("Location: login.php");
+            // Insertion dans la base de données
+            $stmt = $pdo->prepare("
+                INSERT INTO clients (nom, email, adresse, telephone, password)
+                VALUES (:nom, :email, :adresse, :telephone, :password)
+            ");
+            $stmt->execute([
+                ':nom' => $nom,
+                ':email' => $email,
+                ':adresse' => $adresse,
+                ':telephone' => $telephone,
+                ':password' => $hashedPassword
+            ]);
+
+            // Redirection après succès
+            $_SESSION['success'] = "✅ Inscription réussie ! Vous pouvez vous connecter.";
+            header('Location: login.php');
+            exit();
+        }
     }
 }
 ?>
