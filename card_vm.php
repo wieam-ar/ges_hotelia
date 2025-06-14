@@ -1,5 +1,5 @@
 <?php
-include './includes/db.php';
+include './includes/db.php'; 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupérer les données du formulaire
     $method = $_POST['paymentMethod'] ?? '';
@@ -9,26 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cvv = trim($_POST['cvv'] ?? '');
     $amounts = trim($_POST['amounts'] ?? '');
 
-    $id_hotel = $_POST['id_hotel'];
-    $id_chambre = $_POST['id_chambre'];
-    $date_arrivee = $_POST['date_arrivee'];
-    $date_depart = $_POST['date_depart'];
-    $personnes = $_POST['personnes'];
-    // Insertion dans la table reservations
-    $sql2 = "INSERT INTO reservations (hotel_id, chambre_id, date_arrivee, date_depart, personnes, prix_total, status, client_id)
-         VALUES (:hotel_id, :chambre_id, :date_arrivee, :date_depart, :personnes, :prix_total, :status, :client_id)";
-
-    $stmt2 = $pdo->prepare($sql2);
-    $stmt2->execute([
-        ':hotel_id' => $id_hotel,
-        ':chambre_id' => $id_chambre,
-        ':date_arrivee' => $date_arrivee,
-        ':date_depart' => $date_depart,
-        ':personnes' => $personnes,
-        ':prix_total' => $amounts,
-        ':status' => 'confirmée', // ou "en attente" selon ta logique
-        ':client_id' => $client_id // => récupéré depuis la session ou un input caché
-    ]);
+    // Vérifier que les champs ne sont pas vides (validation simple)
+    if (!$method || !$cardNumber || !$cardHolder || !$expiryDate || !$cvv || !$amounts) {
+        die("Tous les champs sont obligatoires.");
+    }
 
     // Préparer et exécuter l'insertion
     $sql = "INSERT INTO payments (method, card_number, card_holder, expiry_date, cvv ,amounts) 
@@ -53,3 +37,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: reservation.php");
     exit();
 }
+?>

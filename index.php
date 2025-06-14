@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 
@@ -421,6 +422,7 @@
                     <div>
                         <div class="row g-2 align-items-center">
                             <div class="col-md-12 col-sm some d-flex justify-content-center " id="search-form">
+                            
                                 <form action="reservation.php" method="GET">
                                     <div class="input-group ml-3">
                                         <span class="input-group-text border-0">

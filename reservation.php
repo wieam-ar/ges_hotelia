@@ -1,5 +1,7 @@
+
 <?php
 include './includes/db.php';
+session_start();
 
 // Get filter values safely (from GET)
 $location = isset($_GET['ville']) ? $_GET['ville'] : '';
@@ -602,7 +604,7 @@ $rooms = $stmt2->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <div class="text-center mt-4">
-            <button class="btn btn-secondary" id="back-to-hotels">Retour aux Hôtels</button>
+            <button class="btn btn-secondary" id="back-to-hotels" style="margin: 0;">Retour aux Hôtels</button>
         </div>
     </section>
 
