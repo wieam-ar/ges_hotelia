@@ -9,6 +9,325 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <style>
+        .loading-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg,rgb(255, 255, 255) 0%,rgb(162, 160, 75) 50%,rgb(3, 3, 3) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: gradientShift 8s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background: black;
+            }
+
+            25% {
+                background:rgb(53, 53, 52);
+            }
+
+            50% {
+                background:rgb(56, 54, 49);
+            }
+
+            75% {
+                background:rgb(53, 50, 42);
+            }
+        }
+
+        .loading-content {
+            text-align: center;
+            color: white;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: logoGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            from {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+
+            to {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .loading-spinner {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 2rem auto;
+        }
+
+        .spinner-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+        }
+
+        .spinner-ring:nth-child(1) {
+            border-top-color: #ffffff;
+            animation-delay: 0s;
+        }
+
+        .spinner-ring:nth-child(2) {
+            border-right-color: #d2bc77;
+            animation-delay: 0.5s;
+            width: 90%;
+            height: 90%;
+            top: 5%;
+            left: 5%;
+        }
+
+        .spinner-ring:nth-child(3) {
+            border-bottom-color: #ab8207;
+            animation-delay: 1s;
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            animation: textPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes textPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .progress-container {
+            width: 300px;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 4px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: linear-gradient(90deg, #ffffff,rgb(46, 43, 46), #ab8207);
+            border-radius: 20px;
+            width: 0%;
+            transition: width 0.3s ease;
+            animation: progressGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes progressGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        .loading-percentage {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            animation: numberCount 0.5s ease-out;
+        }
+
+        @keyframes numberCount {
+            from {
+                transform: scale(1.2);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) {
+            width: 10px;
+            height: 10px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .particle:nth-child(2) {
+            width: 6px;
+            height: 6px;
+            left: 20%;
+            animation-delay: 1s;
+        }
+
+        .particle:nth-child(3) {
+            width: 8px;
+            height: 8px;
+            left: 30%;
+            animation-delay: 2s;
+        }
+
+        .particle:nth-child(4) {
+            width: 12px;
+            height: 12px;
+            left: 40%;
+            animation-delay: 3s;
+        }
+
+        .particle:nth-child(5) {
+            width: 7px;
+            height: 7px;
+            left: 50%;
+            animation-delay: 4s;
+        }
+
+        .particle:nth-child(6) {
+            width: 9px;
+            height: 9px;
+            left: 60%;
+            animation-delay: 5s;
+        }
+
+        .particle:nth-child(7) {
+            width: 11px;
+            height: 11px;
+            left: 70%;
+            animation-delay: 0.5s;
+        }
+
+        .particle:nth-child(8) {
+            width: 5px;
+            height: 5px;
+            left: 80%;
+            animation-delay: 1.5s;
+        }
+
+        .particle:nth-child(9) {
+            width: 13px;
+            height: 13px;
+            left: 90%;
+            animation-delay: 2.5s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10%,
+            90% {
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(180deg);
+            }
+        }
+
+        .main-content {
+            display: none;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .welcome-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .loading-text {
+                font-size: 1.2rem;
+            }
+
+            .progress-container {
+                width: 250px;
+            }
+
+            .welcome-card {
+                margin: 1rem;
+                padding: 2rem;
+            }
+        }
+    </style>
+
 </head>
 
 <body>
@@ -28,7 +347,8 @@
 
         <div class="loading-content">
             <div class="logo">
-                <i class="fas fa-gem"></i> Mon site de luxe
+                <i class="fas fa-gem"></i> Hôtelia
+
             </div>
 
             <div class="loading-spinner">
