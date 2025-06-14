@@ -16,7 +16,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg,rgb(255, 255, 255) 0%,rgb(162, 160, 75) 50%,rgb(3, 3, 3) 100%);
+            background: linear-gradient(135deg, rgb(255, 255, 255) 0%, rgb(162, 160, 75) 50%, rgb(3, 3, 3) 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -32,15 +32,15 @@
             }
 
             25% {
-                background:rgb(53, 53, 52);
+                background: rgb(53, 53, 52);
             }
 
             50% {
-                background:rgb(56, 54, 49);
+                background: rgb(56, 54, 49);
             }
 
             75% {
-                background:rgb(53, 50, 42);
+                background: rgb(53, 50, 42);
             }
         }
 
@@ -160,7 +160,7 @@
 
         .progress-bar {
             height: 8px;
-            background: linear-gradient(90deg, #ffffff,rgb(46, 43, 46), #ab8207);
+            background: linear-gradient(90deg, #ffffff, rgb(46, 43, 46), #ab8207);
             border-radius: 20px;
             width: 0%;
             transition: width 0.3s ease;
@@ -367,22 +367,7 @@
         </div>
     </div>
 
-    <!-- Contenu Principal -->
-    <div class="main-content" id="mainContent">
-        <div class="container">
-            <div class="welcome-card">
-                <h1 class="text-white mb-4">
-                    <i class="fas fa-star"></i> Bienvenue
-                </h1>
-                <p class="text-white lead">
-                    Nous vous souhaitons la bienvenue sur notre site de luxe. Nous sommes ravis de vous avoir parmi nous !
-                </p>
-                <button class="btn btn-light btn-lg mt-3">
-                    <i class="fas fa-rocket"></i> Commencer maintenant
-                </button>
-            </div>
-        </div>
-    </div>
+    
 
 
 
@@ -994,6 +979,98 @@
     <!-- footer  -->
     <?php include 'includes/footer.php'; ?>
     <script>
+        // loading page 
+        // Animation de Chargement
+        let progress = 0;
+        const progressBar = document.getElementById('progressBar');
+        const loadingPercentage = document.getElementById('loadingPercentage');
+        const loadingScreen = document.getElementById('loadingScreen');
+        const mainContent = document.getElementById('mainContent');
+
+        // Messages de chargement
+        const loadingMessages = [
+            'Préparation d\'une expérience exceptionnelle...',
+            'Chargement du contenu de luxe...',
+            'Mise en place d\'une interface unique...',
+            'Tout est prêt pour vous...',
+            'Dernières retouches en cours...'
+        ];
+
+        let messageIndex = 0;
+        const loadingText = document.querySelector('.loading-text');
+
+        // Mettre à jour le message de chargement
+        function updateLoadingMessage() {
+            loadingText.style.animation = 'none';
+            setTimeout(() => {
+                loadingText.textContent = loadingMessages[messageIndex];
+                loadingText.style.animation = 'textPulse 2s ease-in-out infinite';
+                messageIndex = (messageIndex + 1) % loadingMessages.length;
+            }, 100);
+        }
+
+        // Mettre à jour la progression
+        function updateProgress() {
+            if (progress < 100) {
+                // Incrément aléatoire entre 1 et 5
+                const increment = Math.random() * 4 + 1;
+                progress = Math.min(progress + increment, 100);
+
+                progressBar.style.width = progress + '%';
+                loadingPercentage.textContent = Math.floor(progress) + '%';
+
+                // Animation du pourcentage
+                loadingPercentage.style.animation = 'none';
+                setTimeout(() => {
+                    loadingPercentage.style.animation = 'numberCount 0.5s ease-out';
+                }, 10);
+
+                // Changer le message tous les 20%
+                if (Math.floor(progress) % 20 === 0 && Math.floor(progress) !== 0) {
+                    updateLoadingMessage();
+                }
+
+                // Continuer le chargement
+                setTimeout(updateProgress, Math.random() * 200 + 100);
+            } else {
+                // Chargement terminé
+                setTimeout(completeLoading, 1000);
+            }
+        }
+
+        // Terminer le chargement et afficher le contenu principal
+        function completeLoading() {
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.transition = 'opacity 1s ease-out';
+
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+                document.body.style.overflow = 'auto';
+
+                // Animation du contenu principal
+                mainContent.style.opacity = '0';
+                mainContent.style.transform = 'translateY(50px)';
+                mainContent.style.transition = 'all 1s ease-out';
+
+                setTimeout(() => {
+                    mainContent.style.opacity = '1';
+                    mainContent.style.transform = 'translateY(0)';
+                }, 100);
+            }, 1000);
+        }
+
+        // Démarrer l'animation de chargement
+        setTimeout(() => {
+            updateProgress();
+        }, 1000);
+
+        // Mettre à jour le message toutes les 3 secondes
+        setInterval(updateLoadingMessage, 3000);
+
+
+
+        // faq script 
         function toggleFaq(button) {
             const item = button.parentElement;
             item.classList.toggle('active');
