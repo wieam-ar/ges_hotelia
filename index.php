@@ -521,8 +521,7 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- Second slide -->
+                                    <!-- second slide -->
                                     <div class="carousel-item">
                                         <div class="row">
 
@@ -546,8 +545,8 @@
                                             </div>
                                             <div class="col-md-2 col-sm mb-3">
                                                 <div class="hotel-card1 hotel-bedroom " style="  background-image:url('pictures/party.png');background-repeat:no-repeat;   background-position:center; background-size:cover;">
-                                                    <div class="hotel-label">party</div>
-                                                    <div class="hotel-icon"><i class="fas fa-cake"></i></div>
+                                                    <div class="hotel-label">swiming pool</div>
+                                                    <div class="hotel-icon"><i class="fas fa-swiming-pool"></i></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2 col-sm mb-3">
@@ -1049,8 +1048,8 @@
             updateProgress();
         }, 1000);
 
-        // Mettre à jour le message toutes les 3 secondes
-        setInterval(updateLoadingMessage, 3000);
+        // Mettre à jour le message toutes les 2 secondes
+        setInterval(updateLoadingMessage, 2000);
 
 
 
