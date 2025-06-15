@@ -1,9 +1,9 @@
-
 <?php
 include './includes/db.php';
 session_start();
 
 // Get filter values safely (from GET)
+
 $location = isset($_GET['ville']) ? $_GET['ville'] : '';
 $date_arrivee = isset($_GET['date_arrivee']) ? $_GET['date_arrivee'] : '';
 $date_depart = isset($_GET['date_depart']) ? $_GET['date_depart'] : '';
@@ -22,21 +22,27 @@ $hotels = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $stmt2 = $pdo->query("SELECT * FROM chambres ORDER BY id_chambre DESC");
 $rooms = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réservation d'Hôtel - Hôtelia.com</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="./styles/reservation.css">
     <style>
+        /* Your existing styles go here (same as before) */
+        #room-selection,
+        #payment-section {
+            display: none;
+        }
+
         :root {
 
             --primary-color: rgb(255, 123, 0);
-            --secondary-color: #f8fafc;
+            --secondary-color: rgb(0, 0, 0);
             --accent-color: #10b981;
             --warning-color: #f59e0b;
             --danger-color: #ef4444;
@@ -316,317 +322,202 @@ $rooms = $stmt2->fetchAll(PDO::FETCH_ASSOC);
             margin-top: 0.25rem;
         }
 
-        /* Payment Button */
-        .btn-pay {
-            background: yellow;
-            border: none;
-            color: white;
-            font-weight: 600;
-            font-size: 1.125rem;
-            padding: 1rem 2rem;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
+        /* Payment Methods - Fixed Version */
+        .payment-methods {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            /* For mobile responsiveness */
+        }
+
+        .payment-method-option {
             position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
         }
 
-        .btn-pay::before {
-            content: '';
+        .payment-method-option input[type="radio"] {
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 151, 14, 0.2), transparent);
-            transition: left 0.5s ease;
+            opacity: 0;
+            cursor: pointer;
         }
 
-        .btn-pay:hover::before {
-            left: 100%;
+        .payment-method-option label {
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #333;
+            padding: 12px 24px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            min-width: 120px;
+            justify-content: center;
         }
 
-        .btn-pay:hover {
+        .payment-method-option label:hover {
+            border-color: #ff7b00;
+            background-color: #fff5f0;
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-            background: linear-gradient(135deg, #ff780a 0%, #f1c945 100%);
         }
 
-        .btn-pay:active {
-            transform: translateY(0);
-            box-shadow: var(--shadow-md);
+        .payment-method-option input[type="radio"]:checked+label {
+            border-color: #ff7b00;
+            background-color: #ff7b00;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 123, 0, 0.3);
         }
 
-        .btn-pay i {
-            margin-right: 0.5rem;
-        }
-
-        /* Invalid Feedback */
-        .invalid-feedback {
-            display: block;
-            color: var(--danger-color);
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            font-weight: 500;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .payment-container {
-                margin: 1rem;
-                padding: 2rem 1.5rem;
-            }
-
-            .payment-container h2 {
-                font-size: 1.5rem;
-            }
-
-            .payment-methods {
-                grid-template-columns: 1fr;
-            }
-
-            .form-section {
-                padding: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .payment-container {
-                padding: 1.5rem 1rem;
-            }
-
-            .section-title {
-                font-size: 1rem;
-            }
-
-            .payment-method {
-                padding: 1rem;
-            }
-
-            .payment-method i {
-                font-size: 1.5rem;
-            }
-        }
-
-        /* Loading States */
-        .btn-pay.loading {
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        .btn-pay.loading::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            margin: -10px 0 0 -10px;
-            border: 2px solid transparent;
-            border-top: 2px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Success State */
-        .form-control.success {
-            border-color: var(--accent-color);
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2310b981' d='m2.3 6.73.94-.94 4.94-4.94L6.77 0 2.3 4.47 1.53 3.7 0 5.23l2.3 1.5z'/%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right calc(0.375em + 0.1875rem) center;
-            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
-        }
-
-        /* Smooth Transitions */
-        * {
-            transition: var(--transition);
-        }
-
-        /* Focus Visible */
-        .payment-method:focus-visible,
-        .btn-pay:focus-visible,
-        .form-control:focus-visible,
-        .form-select:focus-visible {
-            outline: 2px solid var(--primary-color);
+        .payment-method-option input[type="radio"]:focus+label {
+            outline: 2px solid #ff7b00;
             outline-offset: 2px;
         }
-    </style>
 
+        /* Card icons */
+        .payment-method-option label i {
+            font-size: 1.2rem;
+        }
+
+        /* Form section styling */
+        .form-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(248, 250, 252, 0.8);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .section-title {
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title i {
+            color: #ff7b00;
+            font-size: 1.25rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .payment-methods {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .payment-method-option label {
+                min-width: 200px;
+            }
+        }
+    </style>
 </head>
 
-<body>
+<body style="background-color: black;">
+
     <section id="section" class="py-5">
         <div class="container">
-
-            <!-- Heading -->
-            <div class="row mb-5">
-                <div class="col-12 text-center text-white">
-                    <h2 class="display-4 fw-bold">Réserver Maintenant</h2>
-                    <p class="lead">Trouvez votre hébergement de rêve au meilleur prix</p>
-                </div>
-            </div>
-
             <!-- Progress Bar -->
-            <div class="progress-bar bg-secondary mb-4 rounded-pill" style="height: 10px;">
-                <div class="progress bg-warning" id="progress" style="width: 33%; height: 100%;"></div>
+            <div class="progress mb-4 rounded-pill" style="height: 10px;">
+                <div class="progress-bar bg-warning" id="progress" style="width: 33%;"></div>
             </div>
 
             <!-- Steps -->
-            <div class="row m-4 p-3">
+            <div class="row m-4 p-3 text-white">
                 <div class="col-md-4 text-center">
-                    <div class="step active">
-                        <div class="step-icon"><i class="fas fa-hotel" style="color: GOLD;"></i></div>
-                        <div class="step-text text-light">Choisir un Hôtel</div>
-                    </div>
+                    <i class="fas fa-hotel text-warning me-2"></i>Choisir un Hôtel
                 </div>
                 <div class="col-md-4 text-center">
-                    <div class="step">
-                        <div class="step-icon"><i class="fas fa-bed" style="color: GOLD;"></i></div>
-                        <div class="step-text text-light">Sélectionner les Chambres</div>
-                    </div>
+                    <i class="fas fa-bed text-warning me-2"></i>Sélectionner les Chambres
                 </div>
                 <div class="col-md-4 text-center">
-                    <div class="step">
-                        <div class="step-icon"><i class="fas fa-credit-card" style="color: GOLD;"></i></div>
-                        <div class="step-text text-light">Paiement</div>
-                    </div>
+                    <i class="fas fa-credit-card text-warning me-2"></i>Paiement
                 </div>
             </div>
 
             <!-- Hotels Display -->
-            <div class="row" id="hotels-list">
+            <div id="hotels-list">
                 <?php if (count($hotels) === 0): ?>
                     <p class="text-warning">Aucun hôtel trouvé avec ces critères.</p>
                 <?php else: ?>
-                    <?php foreach ($hotels as $hotel): ?>
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card border-0 shadow-lg h-100 overflow-hidden">
-                                <div class="card-img-container position-relative">
+                    <div class="row">
+                        <?php foreach ($hotels as $hotel): ?>
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="card border-0 shadow-lg h-100 overflow-hidden">
                                     <img src="uploads/<?php echo htmlspecialchars($hotel['image']); ?>" class="card-img-top" style="height: 220px; object-fit: cover;">
+                                    <div class="card-body bg-white text-dark">
+                                        <h5 class="card-title fw-bold"><?php echo htmlspecialchars($hotel['nom_hotel']); ?></h5>
+                                        <p><?php echo htmlspecialchars($hotel['ville']); ?></p>
 
-                                </div>
-                                <div class="card-body bg-white text-dark">
-                                    <h5 class="card-title fw-bold"><?php echo htmlspecialchars($hotel['nom_hotel']); ?></h5>
-                                    <div class="position d-flex justify-content-between">
-                                        <div class="star-rating mb-2">
-                                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                                            <span class="ms-2 text-muted">(4.5)</span>
-                                        </div>
-
-                                        <div class="amenities mb-2">
-                                            <i class="fas fa-wifi amenity-icon me-2" title="WiFi gratuit"></i>
-                                            <i class="fas fa-swimming-pool amenity-icon me-2" title="Piscine"></i>
-                                            <i class="fas fa-car amenity-icon me-2" title="Parking"></i>
-                                            <i class="fas fa-utensils amenity-icon me-2" title="Restaurant"></i>
-                                        </div>
+                                        <p class="card-text"><?= htmlspecialchars($hotel['description']) ?></p>
+                                        <a href="#" onclick='showRooms(<?php echo $hotel["id_hotel"]; ?>, "<?php echo addslashes(htmlspecialchars($hotel["nom_hotel"])); ?>")' class="btn btn-outline-dark w-100 mt-2 rounded-5">
+                                            <i class="fas fa-calendar-check me-2"></i>Réserver maintenant
+                                        </a>
                                     </div>
-
-                                    <p class="card-text"><?php echo htmlspecialchars($hotel['ville']); ?></p>
-                                    <p class="card-text text-ce"><?php echo htmlspecialchars($hotel['description']); ?></p>
-
-                                    `<a href="reservation.php?step=2&id_hotel=<?php echo $hotel['id_hotel']; ?>&date_arrivee=<?php echo urlencode($date_arrivee); ?>&date_depart=<?php echo urlencode($date_depart); ?>&nb_personnes=<?php echo $personnes; ?>" class="btn btn-outline-dark w-100 mt-2 rounded-5">
-                                        <i class="fas fa-calendar-check me-2"></i>Réserver maintenant
-                                    </a>`
                                 </div>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
             </div>
-        </div>
 
-        <!-- Back Button -->
-        <div class="row mt-5">
-            <div class="col-12 text-center">
-                <a href="index.php" class="btn btn-explore-more rounded-5 pt-3 pb-3 px-4">
-                    <span class="btn-text"><i class="fas fa-compass me-2"></i>RETOUR</span>
-                </a>
+            <!-- Back Button -->
+            <div class="text-center mt-5">
+                <a href="index.php" class="btn btn-secondary">← Retour à l'accueil</a>
             </div>
         </div>
-        </div>
     </section>
+
     <!-- Step 2: Room Selection -->
-    <?php
-    include './includes/db.php';
-
-    $id_hotel = $_GET['id_hotel'] ?? null;
-
-    if ($id_hotel) {
-        $stmt = $pdo->prepare("SELECT * FROM chambres WHERE id_hotel = ? ORDER BY id_chambre DESC");
-        $stmt->execute([$id_hotel]);
-        $chambres = $stmt->fetchAll();
-    } else {
-        echo "<p class='text-danger'>Aucun hôtel sélectionné.</p>";
-        exit;
-    }
-    ?>
-
-    <section id="room-selection" class="mb-5">
-        <h2 class="display-4 fw-bold text-center">2. Choisissez vos Chambres pour <span id="selected-hotel-name"></span></h2>
+    <section id="room-selection" class="mb-5 container">
+        <h2 class="display-4 fw-bold text-center" style="color: white;">2. Choisissez vos Chambres pour <span id="selected-hotel-name"></span></h2>
         <div class="row" id="room-list">
-            <?php
-            include './includes/db.php';
-            $chambres = $pdo->query("SELECT * FROM chambres ORDER BY id_chambre DESC LIMIT 4")->fetchAll();
-            ?>
-            <?php foreach ($chambres as $chambre): ?>
+            <?php foreach ($rooms as $room): ?>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card border-0 shadow-lg h-100 overflow-hidden">
+                        <img src="./pictures/chambre1.jpg" class="card-img-top" style="height: 220px; object-fit: cover;">
                         <div class="card-body bg-white text-dark">
-                            <div class="card-img-container position-relative">
-                                <img src="./pictures/chambre1.jpg" class="card-img-top" style="height: 220px; object-fit: cover;">
-                            </div>
-                            <h5 class="card-title fw-bold"><?= htmlspecialchars($chambre['type_chambre']) ?></h5>
-                            <div class="amenities mb-2">
-                                <i class="fas fa-bed me-2"></i><?= htmlspecialchars($chambre['nombre_lits']) ?> lits<br>
-                                <i class="fas fa-layer-group me-2"></i>Étage: <?= htmlspecialchars($chambre['floor']) ?>
-                            </div>
-                            <p><?= htmlspecialchars($chambre['discription']) ?></p>
-                            <p class="fw-semibold mt-2">Prix: <?= htmlspecialchars($chambre['prix']) ?> DH / nuit</p>
-                            <a href="reservation.php?step=3&id_chambre=<?= $chambre['id_chambre'] ?>&id_hotel=<?= $id_hotel ?>" class="btn btn-outline-dark w-100 mt-2 rounded-5">
+                            <h5 class="card-title"><?= htmlspecialchars($room['type_chambre']) ?></h5>
+                            <p><i class="fas fa-bed me-2"></i><?= htmlspecialchars($room['nombre_lits']) ?> lit(s)</p>
+                            <p><i class="fas fa-layer-group me-2"></i>Étage: <?= htmlspecialchars($room['floor']) ?></p>
+                            <p><?= htmlspecialchars($room['discription']) ?></p>
+                            <p class="fw-bold"><?= htmlspecialchars($room['prix']) ?> DH / nuit</p>
+                            <a href="#" onclick="showPayment()" class="btn btn-outline-dark w-100 mt-2 rounded-5">
                                 <i class="fas fa-calendar-check me-2"></i>Réserver maintenant
                             </a>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
-
         </div>
-
         <div class="text-center mt-4">
-            <button class="btn btn-secondary" id="back-to-hotels" style="margin: 0;">Retour aux Hôtels</button>
+            <button class="btn btn-secondary" onclick="backToHotels()">← Retour aux Hôtels</button>
         </div>
     </section>
 
-
-    <!-- Step 3: Payment -->
-
-    <section id="payment-section" class=" d-flex justify-content-center align-items-center d-none mb-5">
-        <div class="payment-container ">
-            <h2 class="text-center mb-4">Choose Payment Method</h2>
+    <!-- Step 3: Payment Section -->
+    <section id="payment-section" class="container my-5">
+        <div class="payment-container mx-auto">
+            <h2 class="text-center mb-4">Choisir le Moyen de Paiement</h2>
             <form action="card_vm.php" method="post" id="paymentForm">
-
                 <!-- Méthodes de paiement -->
                 <div class="form-section">
                     <h5 class="section-title">
                         <i class="bi bi-credit-card-2-front"></i>
                         Méthode de Paiement
                     </h5>
-
                     <div class="payment-methods">
                         <label><input type="radio" name="paymentMethod" value="visa" checked> Visa</label>
                         <label><input type="radio" name="paymentMethod" value="mastercard"> Mastercard</label>
-
                     </div>
                 </div>
 
@@ -636,61 +527,53 @@ $rooms = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                         <i class="bi bi-shield-lock"></i>
                         Informations de la Carte
                     </h5>
-                   
                     <div class="mb-3">
-                       
                         <label for="cardNumber" class="form-label">Numéro de carte <span class="text-warning">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
                             <input type="text" class="form-control" id="cardNumber" name="cardNumber"
                                 placeholder="1234 5678 9012 3456" maxlength="19" required>
                         </div>
-                        <div class="invalid-feedback" id="cardNumber-error"></div>
+                        <div class="invalid-feedback" id="cardNumber-error">Veuillez entrer un numéro valide.</div>
                     </div>
-
 
                     <div class="mb-3">
                         <label for="cardHolder" class="form-label">Nom du titulaire <span class="text-warning">*</span></label>
                         <input type="text" class="form-control" id="cardHolder" name="cardHolder"
-                            placeholder="yahya tariki" required style="text-transform: uppercase;">
-                        <div class="invalid-feedback" id="cardHolder-error"></div>
+                            placeholder="AHMED ELBOUDRAI" required style="text-transform: uppercase;">
+                        <div class="invalid-feedback" id="cardHolder-error">Ce champ est requis.</div>
                     </div>
-
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="expiryDate" class="form-label">Date d'expiration <span class="text-warning">*</span></label>
                             <input type="text" class="form-control" id="expiryDate" name="expiryDate"
                                 placeholder="MM/AA" maxlength="5" required>
-                            <div class="invalid-feedback" id="expiryDate-error"></div>
+                            <div class="invalid-feedback" id="expiryDate-error">Format MM/AA requis.</div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="cvv" class="form-label">CVV <span class="text-warning">*</span></label>
                             <input type="text" class="form-control" id="cvv" name="cvv"
                                 placeholder="123" maxlength="4" required>
-                            <div class="invalid-feedback" id="cvv-error"></div>
+                            <div class="invalid-feedback" id="cvv-error">Code à 3 ou 4 chiffres.</div>
                         </div>
                     </div>
+
                     <div class="form-section">
                         <h5 class="section-title">
                             <i class="bi bi-currency-dollar"></i>
                             Montant à Payer
-                            <?php
-
-                            ?>
                         </h5>
-
                         <div class="mb-3">
                             <label for="amounts" class="form-label">Montant (en Dhs) <span class="text-warning">*</span></label>
                             <input type="number" class="form-control" id="amounts" name="amounts" placeholder="ex: 500" min="1" required>
-                            <div class="invalid-feedback" id="amounts-error"></div>
+                            <div class="invalid-feedback" id="amounts-error">Entrez un montant valide.</div>
                         </div>
                     </div>
                 </div>
 
-
                 <!-- Badge de sécurité -->
-                <div class="security-badge">
+                <div class="security-badge text-center mb-4">
                     <i class="bi bi-shield-check fs-3 mb-2"></i>
                     <div><strong>Paiement 100% Sécurisé</strong></div>
                     <div>Vos données sont protégées par cryptage SSL</div>
@@ -698,75 +581,49 @@ $rooms = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
                 <!-- Bouton de paiement -->
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-pay">
+                    <button type="submit" class="btn btn-pay w-100">
                         <i class="bi bi-lock"></i>
                         Payer maintenant
                     </button>
                 </div>
             </form>
+
+            <!-- Retour aux chambres -->
+            <div class="text-center mt-4">
+                <button type="button" class="btn btn-secondary" onclick="backToRooms()">← Retour aux Chambres</button>
+            </div>
         </div>
     </section>
 
-    <!-- JavaScript -->
     <script>
-        const steps = document.querySelectorAll(".step");
-        const progress = document.getElementById("progress");
-
-        const sectionHotel = document.getElementById("section");
-        const sectionRoom = document.getElementById("room-selection");
-        const sectionPayment = document.getElementById("payment-section");
-
-        function goToStep(index) {
-            steps.forEach((step, i) => {
-                step.classList.toggle("active", i <= index);
-            });
-
-            const percent = index / (steps.length - 1) * 100;
-            progress.style.width = percent + "%";
-
-            sectionHotel.classList.toggle("d-none", index !== 0);
-            sectionRoom.classList.toggle("d-none", index !== 1);
-            sectionPayment.classList.toggle("d-none", index !== 2);
+        function showRooms(hotelId, hotelName) {
+            document.getElementById('hotels-list').style.display = 'none';
+            document.getElementById('room-selection').style.display = 'block';
+            document.getElementById('payment-section').style.display = 'none';
+            document.getElementById('selected-hotel-name').innerText = hotelName;
+            document.getElementById('progress').style.width = '66%';
         }
 
-        // Step Buttons
-        steps.forEach((step, index) => {
-            step.addEventListener("click", () => {
-                goToStep(index);
-            });
-        });
+        function showPayment() {
+            document.getElementById('room-selection').style.display = 'none';
+            document.getElementById('payment-section').style.display = 'block';
+            document.getElementById('progress').style.width = '100%';
+        }
 
-        document.getElementById("back-to-hotels").addEventListener("click", () => {
-            goToStep(0);
-        });
+        function backToHotels() {
+            document.getElementById('room-selection').style.display = 'none';
+            document.getElementById('payment-section').style.display = 'none';
+            document.getElementById('hotels-list').style.display = 'block';
+            document.getElementById('progress').style.width = '33%';
+        }
 
-        document.getElementById("proceed-to-payment").addEventListener("click", () => {
-            goToStep(2);
-        });
-
-        // Sélection des méthodes de paiement (par ex. Carte, PayPal, etc.)
-        document.querySelectorAll('.payment-method').forEach(method => {
-            method.addEventListener('click', function() {
-                // Supprimer la classe "active" de toutes les méthodes
-                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
-
-                // Ajouter "active" à l'élément sélectionné
-                this.classList.add('active');
-
-                // Afficher ou masquer la section carte selon la méthode sélectionnée
-                const cardSection = document.getElementById('cardSection');
-                const selectedMethod = this.dataset.method;
-
-
-            });
-        });
+        function backToRooms() {
+            document.getElementById('payment-section').style.display = 'none';
+            document.getElementById('room-selection').style.display = 'block';
+            document.getElementById('progress').style.width = '66%';
+        }
     </script>
 
-
-    <!-- footer -->
-    <?php include 'includes/footer.php'; ?>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./reservation.js"></script> <!-- Fichier JavaScript personnalisé -->
 </body>
 
 </html>

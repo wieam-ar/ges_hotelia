@@ -410,7 +410,7 @@
     <section id="section1" class="mt-5 " style="height:100vh; ">
         <div class="container  ">
             <video autoplay muted loop class="hero-section" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: -1; border-radius: 20px;">
-                <source src="./pictures/3410663-uhd_2562_1440_30fps (2).mp4" type="video/mp4">
+                <source src="./pictures/3410663-uhd_2562_1440_30fps (1).mp4" type="video/mp4">
             </video>
             <div class="row justify-content-center ">
                 <div class="col-md-10 col-sm-12 centrehero mt-5 mx-auto">
