@@ -369,7 +369,7 @@
                 </li>
 
                 <li>
-                    <a href="reserved.php">
+                    <a href="dashclient.php">
                         <span class="icon">
                             <ion-icon name="home-outline"></ion-icon>
                         </span>
